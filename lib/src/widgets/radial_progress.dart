@@ -13,6 +13,7 @@ class RadialProgress extends StatefulWidget {
   final primaryStrokeWidth;
   final secondaryStrokeWidth;
   final fontSize;
+  final Gradient gradient;
 
   const RadialProgress( {
     @required this.progress, 
@@ -22,7 +23,8 @@ class RadialProgress extends StatefulWidget {
     this.secondaryColor = Colors.grey, 
     this.primaryStrokeWidth = 10.0, 
     this.secondaryStrokeWidth = 4.0,
-    this.fontSize = 20.0
+    this.fontSize = 20.0,
+    @required this.gradient,
     } ) ;
 
   @override
@@ -81,7 +83,8 @@ class _RadialProgressState extends State<RadialProgress> with SingleTickerProvid
                     widget.primaryColor, 
                     widget.secondaryColor,
                     widget.primaryStrokeWidth,
-                    widget.secondaryStrokeWidth
+                    widget.secondaryStrokeWidth,
+                    widget.gradient,
                     )),
             ),
             Center(
@@ -101,12 +104,17 @@ class _MiRadialProgress extends CustomPainter{
   final secondaryColor;
   final primaryStrokeWidth;
   final secondaryStrokeWidth;
+  final Gradient gradient;
 
-  _MiRadialProgress(this.progreso, this.primaryColor, this.secondaryColor, this.primaryStrokeWidth, this.secondaryStrokeWidth);
+  _MiRadialProgress(this.progreso, this.primaryColor, this.secondaryColor, this.primaryStrokeWidth, this.secondaryStrokeWidth, this.gradient);
 
   @override
   void paint(Canvas canvas, Size size) {
     
+    final Rect rect = new Rect.fromCircle(
+      center: Offset(0,0),
+      radius: 180,
+    );
 
     // Circulo completo
     final paint = new Paint()
@@ -121,7 +129,8 @@ class _MiRadialProgress extends CustomPainter{
 
     final paintArco = new Paint()
         ..strokeWidth = primaryStrokeWidth
-        ..color       = primaryColor
+        //..color       = primaryColor
+        ..shader      = gradient.createShader(rect)
         ..strokeCap   = StrokeCap.round
         ..style       = PaintingStyle.stroke;
 

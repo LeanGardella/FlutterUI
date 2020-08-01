@@ -28,15 +28,15 @@ class _GraficasCircularesPageState extends State<GraficasCircularesPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              CustomRadialProgress(porcentaje: porcentaje, color: Colors.deepOrange),
-              CustomRadialProgress(porcentaje: porcentaje, color: Colors.yellow),
+              CustomRadialProgress(porcentaje: porcentaje, ),
+              CustomRadialProgress(porcentaje: porcentaje,),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              CustomRadialProgress(porcentaje: porcentaje, color: Colors.deepPurple),
-              CustomRadialProgress(porcentaje: porcentaje, color: Colors.lightGreen),
+              CustomRadialProgress(porcentaje: porcentaje,),
+              CustomRadialProgress(porcentaje: porcentaje,),
             ],
           ),
         ],
@@ -47,11 +47,10 @@ class _GraficasCircularesPageState extends State<GraficasCircularesPage> {
 
 class CustomRadialProgress extends StatelessWidget {
   final double porcentaje;
-  final Color color;
+
 
   const CustomRadialProgress({
-    @required this.porcentaje,
-    @required this.color,
+    @required this.porcentaje
   });
 
   @override
@@ -65,11 +64,18 @@ class CustomRadialProgress extends StatelessWidget {
           progress: porcentaje , 
           showText: true, 
           duration: Duration(milliseconds: 500), 
-          primaryColor: color,
+          primaryColor: Colors.blue[900],
           secondaryColor: Colors.grey[350],
           primaryStrokeWidth: MediaQuery.of(context).size.width*0.02,
           secondaryStrokeWidth: MediaQuery.of(context).size.width*0.01,
           fontSize: MediaQuery.of(context).size.width*0.08,
+          gradient: RadialGradient(
+            colors: [
+              Colors.blue[900],
+              Colors.deepPurple,
+              Colors.purple,
+            ]
+          ),
         ),
       ),
     );
