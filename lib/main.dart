@@ -7,9 +7,12 @@
 // import 'package:disenos/src/pages/headers_page.dart';
 // import 'package:disenos/src/pages/pinterest_page.dart';
 // import 'package:disenos/src/pages/emergency_page.dart';
+// import 'package:disenos/src/pages/sliver_list.dart';
+// import 'package:disenos/src/pages/animate_do/twitter_page.dart';
+//import 'package:disenos/src/pages/animate_do/navegacion_page.dart';
 import 'package:flutter/material.dart';
+import 'package:disenos/src/pages/animate_do/pagina1.dart';
 
-import 'package:disenos/src/pages/sliver_list.dart';
 void main() => runApp(MyApp());
  
 class MyApp extends StatelessWidget {
@@ -18,7 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'UI App',
-      home: SliverListPage(),
+      home: Pagina1Page(),
     );
   }
 }
