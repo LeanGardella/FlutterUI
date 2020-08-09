@@ -1,4 +1,6 @@
+import 'package:disenos/src/themes/theme_changer.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 
 class SliverListPage extends StatelessWidget {
@@ -24,15 +26,16 @@ class _FooterButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final themeCtrl = Provider.of<ThemeChanger>(context);
     return ButtonTheme(
-      buttonColor: Color(0xffED6762),
+      buttonColor: (themeCtrl.dark) ? themeCtrl.currentTheme.accentColor : Color(0xffED6762),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft:Radius.circular(50))),
       height: size.height * 0.12,
       minWidth: size.width * 0.9,
       child: RaisedButton(
         onPressed: (){},
         child: Text('CREATE NEW LIST', style: TextStyle(
-          color: Colors.white,
+          color: themeCtrl.currentTheme.scaffoldBackgroundColor,
           fontSize: 18,
           fontWeight: FontWeight.bold,
           letterSpacing: 3,
@@ -65,6 +68,7 @@ class _MainScroll extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeCtrl = Provider.of<ThemeChanger>(context);
     return CustomScrollView(
       slivers: <Widget>[
 
@@ -80,7 +84,7 @@ class _MainScroll extends StatelessWidget {
             maxHeight: 200,
             minHeight: 170,
             child: Container(
-              color: Colors.white,
+              color: (themeCtrl.dark || themeCtrl.custom)? themeCtrl.currentTheme.scaffoldBackgroundColor : Colors.white,
               alignment: Alignment.centerLeft,
               child: _Header(),
             ),
@@ -132,12 +136,16 @@ class _SliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
 class _Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final themeCtrl = Provider.of<ThemeChanger>(context);
     return Column(
       children: <Widget>[
         SizedBox(height: 30,),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-          child: Text('New', style: TextStyle(color: Color(0xff532128), fontSize: 50),),
+          child: Text('New', 
+            style: TextStyle(
+              color: (themeCtrl.dark || themeCtrl.custom) ? Colors.grey : Color(0xff532128), 
+              fontSize: 50),),
         ),
         Stack(
           children: <Widget>[

@@ -1,5 +1,7 @@
+import 'package:disenos/src/themes/theme_changer.dart';
 import 'package:disenos/src/widgets/radial_progress.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 class GraficasCircularesPage extends StatefulWidget {
   @override
   _GraficasCircularesPageState createState() => _GraficasCircularesPageState();
@@ -29,14 +31,14 @@ class _GraficasCircularesPageState extends State<GraficasCircularesPage> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               CustomRadialProgress(porcentaje: porcentaje, ),
-              CustomRadialProgress(porcentaje: porcentaje,),
+              CustomRadialProgress(porcentaje: porcentaje * 1.2,),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              CustomRadialProgress(porcentaje: porcentaje,),
-              CustomRadialProgress(porcentaje: porcentaje,),
+              CustomRadialProgress(porcentaje: porcentaje * 1.3,),
+              CustomRadialProgress(porcentaje: porcentaje * 1.1,),
             ],
           ),
         ],
@@ -55,6 +57,7 @@ class CustomRadialProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Provider.of<ThemeChanger>(context);
     return Center(
       child: Container(
         width: MediaQuery.of(context).size.width*0.4,
@@ -63,9 +66,9 @@ class CustomRadialProgress extends StatelessWidget {
         child: RadialProgress( 
           progress: porcentaje , 
           showText: true, 
-          duration: Duration(milliseconds: 500), 
-          primaryColor: Colors.blue[900],
-          secondaryColor: Colors.grey[350],
+          duration: Duration( milliseconds: 500), 
+          primaryColor: (theme.dark) ? Colors.blue[600] :  Colors.blue[900],
+          secondaryColor: theme.currentTheme.textTheme.bodyText1.color,
           primaryStrokeWidth: MediaQuery.of(context).size.width*0.02,
           secondaryStrokeWidth: MediaQuery.of(context).size.width*0.01,
           fontSize: MediaQuery.of(context).size.width*0.08,

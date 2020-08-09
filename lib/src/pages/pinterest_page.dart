@@ -1,3 +1,4 @@
+import 'package:disenos/src/themes/theme_changer.dart';
 import 'package:disenos/src/widgets/pinterest_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -29,6 +30,7 @@ class _PositionedPinterestMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mostrar = Provider.of<_MenuProvider>(context).showMenu;
+    final theme = Provider.of<ThemeChanger>(context).currentTheme;
     return Positioned(
       bottom: 30,
       child: Align(
@@ -37,9 +39,9 @@ class _PositionedPinterestMenu extends StatelessWidget {
           child: Align(
             child: PinterestMenu(
               show: mostrar,
-              // backgroundColor: Colors.lightBlue,
-              // primaryColor: Colors.red,
-              // secondaryColor: Colors.yellow,
+              backgroundColor: theme.scaffoldBackgroundColor,
+              primaryColor: theme.accentColor,
+              secondaryColor: theme.primaryColorLight,
               options: [
                 PinterestButton(button: Icons.pie_chart, onPressed: (){print('PieChart');}),
                 PinterestButton(button: Icons.search, onPressed: (){print('Search');}),
@@ -121,15 +123,16 @@ class _PinterestItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Provider.of<ThemeChanger>(context).currentTheme;
     return new Container(
         margin: EdgeInsets.all(5.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20.0),
-          color: Colors.blue,
+          color: theme.accentColor,
         ),
         child: new Center(
           child: new CircleAvatar(
-            backgroundColor: Colors.white,
+            backgroundColor: theme.primaryColorLight,
             child: new Text('$index'),
           ),
         ));
