@@ -1,21 +1,38 @@
+
+import 'package:disenos/src/models/layout_model.dart';
+import 'package:disenos/src/pages/slideshow_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:disenos/src/routes/routes.dart';
 import 'package:disenos/src/themes/theme_changer.dart';
 
-class LauncherPage extends StatelessWidget {
+class LauncherTabletPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
     final themeCtrl = Provider.of<ThemeChanger>(context);
     final accentColor = themeCtrl.currentTheme.accentColor;
+    final layout = Provider.of<LayoutModel>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Diseños en Flutter - Teléfono'),
+        title: Text('Diseños en Flutter - Tablet'),
         backgroundColor: accentColor,
       ),
-      body: _ListaOpciones(),
+      body: Row(
+        children: <Widget>[
+          Container(
+            height: double.infinity,
+            width: 300,
+            child: _ListaOpciones(),
+          ),
+          Container(
+            width: 1,
+            color: (themeCtrl.dark || themeCtrl.custom) ? Colors.grey[700] : accentColor,
+          ),
+          Expanded(child: layout.currentPage,),
+        ],
+      ),
       drawer: _MenuLateral(),
    );
   }
@@ -82,7 +99,10 @@ class _ListaOpciones extends StatelessWidget {
         title: Text(pageRoutes[i].title),
         trailing: Icon(Icons.chevron_right, color: accentColor),
         onTap: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => pageRoutes[i].page));
+          // Navigator.push(context, MaterialPageRoute(builder: (context) => pageRoutes[i].page));
+
+          final layout = Provider.of<LayoutModel>(context, listen: false);
+          layout.currentPage = pageRoutes[i].page;
         },
       ), 
     );

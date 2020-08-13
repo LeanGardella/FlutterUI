@@ -5,12 +5,19 @@ import 'package:flutter_svg/svg.dart';
 class SlideshowPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(children: <Widget>[
+
+    final bool isLarge = MediaQuery.of(context).size.height > 500;
+
+    final children = [
         Expanded(child: MiSlides()),
         Expanded(child: MiSlides()),
       
-      ],)
+      ];
+
+    return Scaffold(
+      body: (isLarge) ?
+        Column(children: children,) :
+        Row(children: children,)
     );
   }
 }
