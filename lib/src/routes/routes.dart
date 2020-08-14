@@ -1,3 +1,4 @@
+import 'package:disenos/src/pages/shoes_app/shoes_main.dart';
 import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -22,6 +23,7 @@ final pageRoutes = <_Route>[
   _Route(FontAwesomeIcons.mobile, 'Slivers', SliverListPage()),
   _Route(FontAwesomeIcons.camera, 'Animation_do', Pagina1Page()),
   _Route(FontAwesomeIcons.cameraRetro, 'Animaciones', AnimationPage()),
+  _Route(FontAwesomeIcons.shoePrints, 'ShoeApp', ShoesMainPage())
 ];
 
 class _Route {
