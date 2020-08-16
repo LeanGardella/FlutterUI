@@ -1,3 +1,4 @@
+import 'package:disenos/src/pages/shoes_app/shoes_desc.dart';
 import 'package:disenos/src/pages/shoes_app/shoes_main.dart';
 import 'package:flutter/material.dart';
 
