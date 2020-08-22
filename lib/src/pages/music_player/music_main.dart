@@ -1,9 +1,12 @@
+import 'package:animate_do/animate_do.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:disenos/src/helpers/music-player-helper.dart';
+import 'package:disenos/src/models/musicplayer_model.dart';
 import 'package:disenos/src/themes/music-player-theme.dart';
 import 'package:disenos/src/themes/theme_changer.dart';
 import 'package:disenos/src/widgets/music-player/custom-appbar.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:provider/provider.dart';
 
 
@@ -15,13 +18,29 @@ class MusicPlayerPage extends StatelessWidget {
     themeCtrl.currentTheme = miTema;
     return Scaffold(
       //backgroundColor: Colors.white,
-      body: Column(
+      body: Stack(
         children: <Widget>[
-          CustomAppbar(),
-          _DiscoYDuracion(),
-          _TituloYPlay(),
-          Expanded(
-            child: _Lyrics(),
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xff33333e),
+                  Color(0xff201e28),
+                ]
+              ),
+            ),
+          ),
+          Column(
+            children: <Widget>[
+              CustomAppbar(),
+              _DiscoYDuracion(),
+              _TituloYPlay(),
+              Expanded(
+                child: _Lyrics(),
+              ),
+            ],
           ),
         ],
       ),
@@ -45,10 +64,53 @@ class _Lyrics extends StatelessWidget {
   }
 }
 
-class _TituloYPlay extends StatelessWidget {
+class _TituloYPlay extends StatefulWidget {
+
+  @override
+  __TituloYPlayState createState() => __TituloYPlayState();
+}
+
+class __TituloYPlayState extends State<_TituloYPlay> with SingleTickerProviderStateMixin {
+
+  bool isPlaying = false;
+  bool isFirstTime = true;
+  AnimationController animCtrl;
+
+  final assetsAudioPlayer = new AssetsAudioPlayer();
+
+  @override
+  void initState() {
+    animCtrl = new AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    animCtrl.dispose();
+    super.dispose();
+  }
+
+  void open(){
+    final prov = Provider.of<MusicplayerModel>(context, listen: false);
+    assetsAudioPlayer.open(Audio('assets/music-player/500-letters.mp3'));
+
+    assetsAudioPlayer.currentPosition.listen((d) { 
+      
+      prov.elapsedTime = d; 
+    });
+    assetsAudioPlayer.current.listen((d) { 
+     // print(d.audio.duration);
+      prov.songDuration = d.audio.duration; 
+    });
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
+
+    final prov = Provider.of<MusicplayerModel>(context, listen: false);
+    
     return Container(
       padding: EdgeInsets.all(30),
       margin: EdgeInsets.only(top: 30),
@@ -64,8 +126,25 @@ class _TituloYPlay extends StatelessWidget {
           Spacer(),
           FloatingActionButton(
             backgroundColor: Colors.greenAccent[400],
-            child: Icon(Icons.play_arrow),
-            onPressed: () {},
+            child: AnimatedIcon(icon: AnimatedIcons.play_pause, progress: animCtrl,),
+            onPressed: () {
+              if(isPlaying){
+                isPlaying = false;
+                animCtrl.reverse();
+                prov.animationController.stop();
+              }else{
+                isPlaying = true;
+                animCtrl.forward();
+                prov.animationController.repeat();
+              }
+               if(isFirstTime){
+                  open();
+                  isFirstTime = false;
+                }else{
+                  assetsAudioPlayer.playOrPause();
+                }
+            },
+
           ),
         ],
       ),
@@ -81,11 +160,11 @@ class _DiscoYDuracion extends StatelessWidget {
       margin: EdgeInsets.only(top: 70),
       child: Row(
         children: <Widget>[
-          SizedBox(width: 15,),
+          SizedBox(width: 5,),
           _Disco(),
-          SizedBox(width: 40,),
+          SizedBox(width: 20,),
           _Progreso(),
-          SizedBox(width: 15,),
+          SizedBox(width: 5,),
 
         ],
       ),
@@ -97,10 +176,13 @@ class _Progreso extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final prov = Provider.of<MusicplayerModel>(context);
+          
+    //print('PROGRSO: ${prov.totalSongDuration}');
     return Container(
       child: Column(
         children: <Widget>[
-          Text('4:50', style: TextStyle(color: Colors.white54)),
+          Text('${prov.totalSongDuration}', style: TextStyle(color: Colors.white54)),
           SizedBox(height: 10,),
           Stack(
             children: <Widget>[
@@ -113,7 +195,7 @@ class _Progreso extends StatelessWidget {
                 bottom: 0,
                 child: Container(
                   width: 3,
-                  height: 120,
+                  height: 230 * prov.procentajeAvance,
                   color: Colors.white70,
                 ),
               ),
@@ -121,7 +203,7 @@ class _Progreso extends StatelessWidget {
             ],
           ),
           SizedBox(height: 10,),
-          Text('0:00', style: TextStyle(color: Colors.white54)),
+          Text('${prov.elapsedTimeDuration}', style: TextStyle(color: Colors.white54)),
         ],
       ),
     );
@@ -141,7 +223,14 @@ class _Disco extends StatelessWidget {
         child: Stack(
           alignment: Alignment.center,
           children: <Widget>[
-            Image(image: AssetImage('assets/music-player/cover.jpg'),),
+            SpinPerfect(
+              duration: Duration(seconds: 10),
+              infinite: true,
+              animate: false,
+              manualTrigger: true,
+              controller: (c) => Provider.of<MusicplayerModel>(context).animationController = c ,
+              child: Image(image: AssetImage('assets/music-player/cover.jpg'),)
+              ),
             Container(
               height: 25,
               width: 25,

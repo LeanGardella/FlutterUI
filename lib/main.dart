@@ -1,5 +1,6 @@
 
 import 'package:disenos/src/models/layout_model.dart';
+import 'package:disenos/src/models/musicplayer_model.dart';
 import 'package:disenos/src/models/zapato_model.dart';
 import 'package:disenos/src/pages/launcher_tablet_page.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ void main() => runApp(
       ChangeNotifierProvider<ThemeChanger>( create: (BuildContext context)  => new ThemeChanger(1) ,),
       ChangeNotifierProvider<LayoutModel>( create: (BuildContext context)  => new LayoutModel() ,),
       ChangeNotifierProvider<ZapatoModel>( create: (BuildContext context) => new ZapatoModel()),
+      ChangeNotifierProvider<MusicplayerModel>( create: (BuildContext context) => new MusicplayerModel()),
     ],
     child: MyApp()
   )
