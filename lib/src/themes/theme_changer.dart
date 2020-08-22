@@ -1,3 +1,4 @@
+import 'package:disenos/src/themes/music-player-theme.dart';
 import 'package:flutter/material.dart';
 
 class ThemeChanger with ChangeNotifier {
@@ -28,6 +29,7 @@ class ThemeChanger with ChangeNotifier {
         textTheme: TextTheme(bodyText1: TextStyle(color: Colors.white)),
       );
         break;
+    
       default: // light
         _dark = false;
         _custom = false;
@@ -36,6 +38,10 @@ class ThemeChanger with ChangeNotifier {
   }
 
   ThemeData get currentTheme => this._currentTheme;
+
+  set currentTheme(ThemeData d){
+    this._currentTheme = d;
+  }
 
   bool get dark => this._dark;
   set dark(bool v) {

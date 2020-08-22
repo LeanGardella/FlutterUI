@@ -1,3 +1,4 @@
+import 'package:disenos/src/pages/music_player/music_main.dart';
 import 'package:disenos/src/pages/shoes_app/shoes_desc.dart';
 import 'package:disenos/src/pages/shoes_app/shoes_main.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,8 @@ final pageRoutes = <_Route>[
   _Route(FontAwesomeIcons.mobile, 'Slivers', SliverListPage()),
   _Route(FontAwesomeIcons.camera, 'Animation_do', Pagina1Page()),
   _Route(FontAwesomeIcons.cameraRetro, 'Animaciones', AnimationPage()),
-  _Route(FontAwesomeIcons.shoePrints, 'ShoeApp', ShoesMainPage())
+  _Route(FontAwesomeIcons.shoePrints, 'ShoeApp', ShoesMainPage()),
+  _Route(FontAwesomeIcons.music, 'Music Player', MusicPlayerPage())
 ];
 
 class _Route {
