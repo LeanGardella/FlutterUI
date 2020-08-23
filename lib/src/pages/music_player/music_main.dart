@@ -194,8 +194,8 @@ class _Progreso extends StatelessWidget {
               Positioned(
                 bottom: 0,
                 child: Container(
-                  width: 3,
-                  height: 230 * prov.procentajeAvance,
+                  width: 3.0,
+                  height: 230.0 * prov.procentajeAvance,
                   color: Colors.white70,
                 ),
               ),
